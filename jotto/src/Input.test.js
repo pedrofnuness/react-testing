@@ -1,6 +1,6 @@
 import React from "react";
-import { shallow, ShallowWrapper } from "enzyme";
-import { findByTestAttr } from "../test/testUtils";
+import { shallow } from "enzyme";
+import { checkProps, findByTestAttr } from "../test/testUtils";
 import Input from "./Input";
 
 /**
@@ -8,12 +8,20 @@ import Input from "./Input";
  * @returns {ShallowWrapper}
  */
 
-const setup = () => {
-  return shallow(<Input />);
+const defaultProps = { secretWord: "file" };
+
+const setup = (props = {}) => {
+  const setupProps = { ...defaultProps, ...props };
+  return shallow(<Input {...setupProps} />);
 };
 
 test("renders without error", () => {
   const wrapper = setup();
   const component = findByTestAttr(wrapper, "component-input");
   expect(component.length).toBe(1);
+});
+
+test("does not throw warning with expected props", () => {
+  const expectedProps = { secretWord: "file" };
+  checkProps(Input, expectedProps);
 });
