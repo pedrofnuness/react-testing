@@ -6,7 +6,7 @@ import Input from "./Input";
 /**
  * Setup function for input component
  * @returns {ShallowWrapper}
- */
+**/
 
 const defaultProps = { secretWord: "file" };
 
@@ -39,4 +39,16 @@ describe("state controlled input field", () => {
 
     expect(mockSetCurrentGuess).toHaveBeenCalledWith('train');
   });
+
+  test("field is cleared upon submit button click", () => {
+    const mockSetCurrentGuess = jest.fn();
+    React.useState = jest.fn(() => ["", mockSetCurrentGuess]);
+
+    const wrapper = setup();
+    const button = findByTestAttr(wrapper, 'submit-button');
+
+    button.simulate("click");
+
+    expect(mockSetCurrentGuess).toHaveBeenCalledWith('');
+  }) 
 });
