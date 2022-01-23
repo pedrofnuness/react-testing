@@ -25,13 +25,23 @@ test("does not throw warning with expected props", () => {
   const expectedProps = { secretWord: "file" };
   checkProps(Input, expectedProps);
 });
-
+ 
 describe("state controlled input field", () => {
-  test("state updates with value of input box upon change", () => {
-    const mockSetCurrentGuess = jest.fn();
-    React.useState = jest.fn(() => ["", mockSetCurrentGuess]);
+  let mockSetCurrentGuess = jest.fn();
+  let wrapper;
+  let originalUseState; 
 
-    const wrapper = setup();
+  beforeEach(() => {
+    mockSetCurrentGuess.mockClear();
+    originalUseState = React.useState;
+    React.useState = jest.fn(() => ["", mockSetCurrentGuess]);
+    wrapper = setup();
+  });
+  afterEach(() => {
+    React.useState = originalUseState;
+  });
+
+  test("state updates with value of input box upon change", () => {
     const inputBox = findByTestAttr(wrapper, 'input-box');
 
     const mockEvent = { target: { value: 'train' } };
@@ -41,13 +51,9 @@ describe("state controlled input field", () => {
   });
 
   test("field is cleared upon submit button click", () => {
-    const mockSetCurrentGuess = jest.fn();
-    React.useState = jest.fn(() => ["", mockSetCurrentGuess]);
-
-    const wrapper = setup();
     const button = findByTestAttr(wrapper, 'submit-button');
 
-    button.simulate("click");
+    button.simulate("click", { preventDefault() {} });
 
     expect(mockSetCurrentGuess).toHaveBeenCalledWith('');
   }) 
