@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme/mount';
+import { mount } from 'enzyme';
 
 import App from './App';
 import { findByTestAttr } from '../test/testUtils.js';
@@ -29,7 +29,19 @@ const setup = (state = {}) => {
 };
 
 describe('no words guessed', () => {
+  let wrapper;
+  beforeEach(() => {
+    wrapper = setup({
+      secretWord: 'party', 
+      success: false,
+      guessedWords: []
+    });
+  });
 
+  test('creates GuessedWords table with one row', () => {
+    const guessedWordsRows = findByTestAttr(wrapper, 'guessed-word');
+    expect(guessedWordsRows).toHaveLength(1);
+  });
 });
 
 describe('some words guessed', () => {
@@ -37,5 +49,5 @@ describe('some words guessed', () => {
 });
 
 describe('guess secret word', () => {
-  
+
 })
