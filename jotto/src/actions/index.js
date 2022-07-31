@@ -1,5 +1,5 @@
-import { getLetterMatchCount} from '../helpers';
 import axios from 'axios';
+import { getLetterMatchCount} from '../helpers';
 
 export const actionTypes = {
   CORRECT_GUESS: 'CORRECT_GUESS',

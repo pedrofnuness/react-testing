@@ -3,8 +3,7 @@ import { Provider } from 'react-redux';
 import {findByTestAttr, storeFactory} from '../test/testUtils';
 import App from './App';
 
-// Activate global mock to make sure getSecretWord doesn't make network calls
-jest.mock('./actions');
+
 import {getSecretWord as mockGetSecretWord} from './actions';
 
 /**
